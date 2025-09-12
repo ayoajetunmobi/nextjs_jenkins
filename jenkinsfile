@@ -4,8 +4,32 @@ pipeline {
     stages{
         stage('Build') {
             steps {
-                sh 'node -v'
+                sh 'npm install'
+                sh 'npm run build'
             }
        }
+       stage('test'){
+            steps {
+                sh 'npm start &'
+                sh 'kill -9 $!'
+            }
+       }
+       stage('deploy'){
+            steps {
+                script{
+                    // use jenkins secret as best practise
+                     def remote = [:]
+                     remote.name = 'linux'
+                     remote.host = '192.168.234.133'
+                     remote.user = 'linux'
+                     remote.password = '1234'
+                     remote.allowAnyHosts = true
+                     stage('Remote SSH') {
+                        sshCommand remote: remote, command: "git clone https://github.com/ayoajetunmobi/Resume.git"
+                        sshCommand remote: remote, command: "npm run build"
+                        sshCommand remote: remote, command: "bash /home/ajeh/deploy.sh"
+                 }
+            }
+        }        
     }
 }
