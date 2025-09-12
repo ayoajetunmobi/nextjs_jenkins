@@ -2,36 +2,37 @@ pipeline {
     agent{ label 'nodejsapp'
     }
     stages{
-        stage('Build') {
-            steps {
-                sh 'npm install'
-                sh 'npm run build'
+            stage('Build') {
+                steps {
+                    sh 'npm install'
+                    sh 'npm run build'
+                }
             }
-       }
-       stage('test'){
-            steps {
-                sh 'npm start &'
-                sh 'kill -9 $!'
-            }
-       }
-       stage('deploy'){
-            steps {
-                script{
-                    // use jenkins secret as best practise
-                     def remote = [:]
-                     remote.name = 'ajeh'
-                     remote.host = '192.168.234.130'
-                     remote.user = 'ajeh'
-                     remote.password = '12345'
-                     remote.allowAnyHosts = true
-                     stage('Remote SSH') {
-                        sshCommand remote: remote, command: "cd /home/ajeh/nodejsapp"
-                        sshCommand remote: remote, command: "git clone https://github.com/ayoajetunmobi/nextjs_jenkins.git"
-                        sshCommand remote: remote, command: "npm run build"
-                        sshCommand remote: remote, command: "npm start"
-                        // sshCommand remote: remote, command: "bash /home/ajeh/deploy.sh"
-                 }
-            }
-        }        
+           stage('test'){
+                steps {
+                    sh 'npm start &'
+                    sh 'kill -9 $!'
+                }
+           }
+           stage('deploy'){
+                steps {
+                    script{
+                        // use jenkins secret as best practise
+                         def remote = [:]
+                         remote.name = 'ajeh'
+                         remote.host = '192.168.234.130'
+                         remote.user = 'ajeh'
+                         remote.password = '12345'
+                         remote.allowAnyHosts = true
+                         stage('Remote SSH') {
+                            sshCommand remote: remote, command: "cd /home/ajeh/nodejsapp"
+                            sshCommand remote: remote, command: "git clone https://github.com/ayoajetunmobi/nextjs_jenkins.git"
+                            sshCommand remote: remote, command: "npm run build"
+                            sshCommand remote: remote, command: "npm start"
+                            // sshCommand remote: remote, command: "bash /home/ajeh/deploy.sh"
+                     }
+                }
+            }        
+        }
     }
 }
