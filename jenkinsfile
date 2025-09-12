@@ -1,0 +1,11 @@
+pipeline {
+    agent{ label 'nodejsapp'
+    }
+    stages{
+        stage('Build') {
+            steps {
+                sh 'node -v'
+            }
+       }
+    }
+}
