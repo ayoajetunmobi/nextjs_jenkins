@@ -11,7 +11,7 @@ pipeline {
            stage('test'){
                 steps {
                     sh 'npm start &'
-                    sh 'kill $!'
+                    sh 'kill -n 9 $!'
                 }
            }
            stage('deploy'){
