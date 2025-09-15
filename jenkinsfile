@@ -8,11 +8,19 @@ pipeline {
                     sh 'npm run build'
                  }
              }
-           //stage('test'){
-             //   steps {
-               //     sh 'npm start &'
-               // }
-          // }
+             stage('test'){
+                 steps {
+                    script{
+                         try{
+                            timeout(time:10, unit: 'SECONDS'){
+                                 sh 'npm start &'
+                            }
+                        }catch(err){
+                            echo "timeout ${err}"
+                        } 
+                    }   
+               }
+           }
            stage('deploy'){
                 steps {
                     script{
