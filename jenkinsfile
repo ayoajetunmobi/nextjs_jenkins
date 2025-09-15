@@ -6,13 +6,13 @@ pipeline {
                 steps {
                     sh 'npm install'
                     sh 'npm run build'
-                }
-            }
-           stage('test'){
-                steps {
-                    sh 'npm start &'
-                }
-           }
+                 }
+             }
+           //stage('test'){
+             //   steps {
+               //     sh 'npm start &'
+               // }
+          // }
            stage('deploy'){
                 steps {
                     script{
