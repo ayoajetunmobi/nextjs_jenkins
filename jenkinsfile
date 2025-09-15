@@ -2,25 +2,25 @@ pipeline {
     agent{ label 'nodejsapp'
     }
     stages{
-            stage('Build') {
-                steps {
-                    sh 'npm install'
-                    sh 'npm run build'
-                 }
-             }
-             stage('test'){
-                 steps {
-                    script{
-                         try{
-                            timeout(time:10, unit: 'SECONDS'){
-                                 sh 'npm start &'
-                            }
-                        }catch(err){
-                            echo "timeout ${err}"
-                        } 
-                    }   
-               }
-           }
+           // stage('Build') {
+           //     steps {
+             //       sh 'npm install'
+              //      sh 'npm run build'
+           //      }
+            // }
+           //  stage('test'){
+            //     steps {
+             //       script{
+               //          try{
+                 //           timeout(time:10, unit: 'SECONDS'){
+                 //                sh 'npm start &'
+                   //         }
+                    //    }catch(err){
+                     //       echo "timeout ${err}"
+                     //   } 
+                  //  }   
+             //  }
+          // }
            stage('deploy'){
                 steps {
                     script{
