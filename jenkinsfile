@@ -34,6 +34,7 @@ pipeline {
                          stage('Remote SSH') {
                             sshCommand remote: remote, command: "cd /home/ajeh/nodejsapp"
                             sshCommand remote: remote, command: "git clone https://github.com/ayoajetunmobi/nextjs_jenkins.git"
+                            sshCommand remote: remote, command: "npm install"
                             sshCommand remote: remote, command: "npm run build"
                             sshCommand remote: remote, command: "npm start"
                             // sshCommand remote: remote, command: "bash /home/ajeh/deploy.sh"
